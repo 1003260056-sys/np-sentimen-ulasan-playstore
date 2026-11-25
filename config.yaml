@@ -1,0 +1,56 @@
+paths:
+  raw_dataset: data/raw/ulasan_pengguna.csv
+  slang_dict: data/external/kamus_slang_id.csv
+  processed_dir: data/processed
+  models_dir: models
+  figures_dir: outputs/figures
+  best_model: models/best_sentiment_pipeline.joblib
+  comparison_csv: data/processed/hasil_komparasi_model_uts.csv
+
+schema:
+  id_col: id_ulasan
+  date_col: tanggal
+  category_col: kategori_produk
+  rating_col: rating
+  text_col: teks_ulasan
+  clean_text_col: teks_bersih
+  target_col: label_sentimen
+  classes: ['Positif', 'Netral', 'Negatif']
+
+scraping:
+  apps:
+    - {app_id: 'com.tokopedia.tkpd', count: 750}
+    - {app_id: 'com.shopee.id', count: 750}
+  lang: id
+  country: id
+  missing_noise_rate: 0.02
+  duplicate_noise_rows: 15
+  random_state: 42
+
+split:
+  train_ratio: 0.70
+  val_ratio: 0.15
+  test_ratio: 0.15
+
+preprocessing:
+  use_stemmer: true
+  negation_whitelist: ['tidak', 'bukan', 'kurang', 'belum', 'jangan', 'tanpa']
+
+features:
+  ngram_range: [1, 2]
+  min_df: 2
+  max_df: 0.90
+  sublinear_tf: true
+  norm: l2
+  chi2_k: 500
+  svd_components: 100
+  embedding_dim: 100
+  embedding_window: 5
+
+training:
+  cv_folds: 5
+  scoring: f1_macro
+
+visualization:
+  dpi: 300
+  style: seaborn-v0_8-whitegrid
