@@ -6,6 +6,8 @@ __pycache__/
 *.py[cod]
 .ipynb_checkpoints/
 .pytest_cache/
+data/raw/
+data/external/
 
 models/*.joblib
 models/*.model
